@@ -1,9 +1,22 @@
-#include <iostream>
+#include "tictactoe.h"
+
 #include <conio.h>
+
+#include <iostream>
+
+std::vector<std::vector<char>> array =
+{
+  {'X', 'O', 'O'},
+  {'X', 'X', 'O'},
+  {'O', 'X', 'O'},
+};
 
 int main()
 {
-  std::cout << "Welcome to developing TicTacToe game\nPress any key" << std::endl;
+  TicTacToe game;
+  game.ShowBoard();
+
+  std::cout << "Press any key" << std::endl;
   _getch();
   return 0;
 }
