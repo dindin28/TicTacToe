@@ -1,0 +1,3 @@
+noughts 0
+crosses 0
+draws 0

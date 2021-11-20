@@ -27,6 +27,9 @@
     <ClCompile Include="src\outputter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\statistics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\tictactoe\inputter.h">
@@ -41,5 +44,13 @@
     <ClInclude Include="src\tictactoe\tictactoe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tictactoe\statistics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\resources\statistics.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
