@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\outputter.cpp" />
+    <ClCompile Include="src\statistics.cpp" />
     <ClCompile Include="src\tictactoe.cpp" />
     <ClCompile Include="src\inputter.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -152,7 +153,11 @@
     <ClInclude Include="src\tictactoe\inputter.h" />
     <ClInclude Include="src\tictactoe\options.h" />
     <ClInclude Include="src\tictactoe\outputter.h" />
+    <ClInclude Include="src\tictactoe\statistics.h" />
     <ClInclude Include="src\tictactoe\tictactoe.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\resources\statistics.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,6 @@
 #include "tictactoe/tictactoe.h"
 #include "tictactoe/inputter.h"
+#include "tictactoe/statistics.h"
 
 #include <conio.h>
 #include <windows.h>
@@ -36,13 +37,13 @@ int main()
 {
   TicTacToe game;
   game.ShowBoard();
-  Inputter inputter(Slot);
-  inputter.AddKey(VK_UP);
-  inputter.AddKey(VK_DOWN);
-  inputter.AddKey(VK_LEFT);
-  inputter.AddKey(VK_RIGHT);
 
-  while(true);
+  Statisticks statisticks;
+  statisticks.ReadFile();
+  statisticks.IncrementCrosses();
+  statisticks.UpdateFile();
+
+  //while(true);
   //{ std::cout << "Waiting slot\n"; }
   std::cout << "Press any key" << std::endl;
   _getch();
