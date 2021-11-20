@@ -1,4 +1,4 @@
-#include "outputter.h"
+#include "tictactoe/outputter.h"
 
 #include <format>
 #include <iostream>

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\inputer.cpp">
+    <ClCompile Include="src\inputter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -29,13 +29,16 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\inputer.h">
+    <ClInclude Include="src\tictactoe\inputter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\tictactoe.h">
+    <ClInclude Include="src\tictactoe\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\outputter.h">
+    <ClInclude Include="src\tictactoe\outputter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tictactoe\tictactoe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

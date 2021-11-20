@@ -145,13 +145,14 @@
   <ItemGroup>
     <ClCompile Include="src\outputter.cpp" />
     <ClCompile Include="src\tictactoe.cpp" />
-    <ClCompile Include="src\inputer.cpp" />
+    <ClCompile Include="src\inputter.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\outputter.h" />
-    <ClInclude Include="src\tictactoe.h" />
-    <ClInclude Include="src\inputer.h" />
+    <ClInclude Include="src\tictactoe\inputter.h" />
+    <ClInclude Include="src\tictactoe\options.h" />
+    <ClInclude Include="src\tictactoe\outputter.h" />
+    <ClInclude Include="src\tictactoe\tictactoe.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
