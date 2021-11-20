@@ -21,6 +21,7 @@ Inputter::Inputter(void(*signal_pointer)(int))
 
 void Inputter::AddKey(int virtual_key)
 {
+  std::lock_guard<std::mutex> locker(map_mutex_);
   virtual_keys_.insert_or_assign(virtual_key, std::chrono::steady_clock::now());
 }
 
@@ -61,6 +62,7 @@ void Inputter::ThreadFunction()
 {
   while(true)
   {
+    std::lock_guard<std::mutex> locker(map_mutex_);
     for (auto &[virtual_key, time_point] : virtual_keys_)
     {
       if (CheckDelay(time_point) && CheckPressed(virtual_key))

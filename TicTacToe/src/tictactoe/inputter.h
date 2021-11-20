@@ -3,6 +3,7 @@
 
 #include <map>
 #include <chrono>
+#include <mutex>
 
 class Inputter
 {
@@ -19,6 +20,8 @@ class Inputter
 
  private:
   std::map<int, std::chrono::time_point<std::chrono::steady_clock>> virtual_keys_;
+  std::mutex map_mutex_;
+
   void(*signal_pointer_)(int);
 };
 
