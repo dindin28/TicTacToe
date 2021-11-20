@@ -1,0 +1,3 @@
+noughts 12
+crosses 23
+draws 321
