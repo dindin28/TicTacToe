@@ -12,7 +12,7 @@ const Outputter& TicTacToe::GetOutputter()
   return outputter_;
 }
 
-void TicTacToe::ShowBoard()
+void TicTacToe::ShowBoard(const std::vector<std::vector<char>>& array)
 {
-  outputter_.ShowBoard(array_);
+  outputter_.ShowBoard(array);
 }

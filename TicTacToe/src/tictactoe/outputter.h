@@ -6,7 +6,7 @@
 class Outputter
 {
 public:
-  void ShowBoard(std::vector<std::vector<char>> array_) const;
+  void ShowBoard(const std::vector<std::vector<char>>& array_) const;
 };
 
 #endif // header guard

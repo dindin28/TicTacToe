@@ -13,7 +13,7 @@ public:
   TicTacToe();
 
   const Outputter& GetOutputter();
-  void ShowBoard();
+  void ShowBoard(const std::vector<std::vector<char>>& array);
 
 private:
   std::vector<std::vector<char>> array_;
