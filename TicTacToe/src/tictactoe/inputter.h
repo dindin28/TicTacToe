@@ -4,25 +4,34 @@
 #include <map>
 #include <chrono>
 #include <mutex>
+#include <functional>
+
+class TicTacToe;
 
 class Inputter
 {
  public:
-  Inputter(void(*signal_pointer)(int));
+  Inputter(std::function<void(TicTacToe&, int)> signal_pointer,
+           TicTacToe& object);
   void AddKey(int virtual_key);
-  void AssignSignal(void(*signal_pointer)(int));
-  
+  void ClearKeys();
+
+  void StartThread();
+  void StopThread();
+
+  void ChangeSignal(std::function<void(TicTacToe&, int)> signal_pointer);
+
  private:
   void ThreadFunction();
   bool CheckPressed(int virtual_key);
   bool CheckDelay(std::chrono::time_point<std::chrono::steady_clock> prev);
-  void StartThread();
+  bool thread_in_work_;
 
  private:
   std::map<int, std::chrono::time_point<std::chrono::steady_clock>> virtual_keys_;
-  std::mutex map_mutex_;
 
-  void(*signal_pointer_)(int);
+  std::function<void(TicTacToe&, int)> signal_pointer_;
+  TicTacToe& object_;
 };
 
-#endif // header guard
+#endif // Header guard

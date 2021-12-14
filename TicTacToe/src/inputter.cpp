@@ -13,19 +13,24 @@
 // Public functions
 //===========================
 
-Inputter::Inputter(void(*signal_pointer)(int))
-  : signal_pointer_(signal_pointer)
-{
-  StartThread();
-}
+Inputter::Inputter(std::function<void(TicTacToe&, int)> signal_pointer,
+                   TicTacToe& object)
+  : signal_pointer_(signal_pointer),
+    object_(object),
+  thread_in_work_(false)
+{}
 
 void Inputter::AddKey(int virtual_key)
 {
-  std::lock_guard<std::mutex> locker(map_mutex_);
   virtual_keys_.insert_or_assign(virtual_key, std::chrono::steady_clock::now());
 }
 
-void Inputter::AssignSignal(void(*signal_pointer)(int))
+void Inputter::ClearKeys()
+{
+  virtual_keys_.clear();
+}
+
+void Inputter::ChangeSignal(std::function<void(TicTacToe&, int)> signal_pointer)
 {
   signal_pointer_ = signal_pointer;
 }
@@ -36,7 +41,13 @@ void Inputter::AssignSignal(void(*signal_pointer)(int))
 
 void Inputter::StartThread()
 {
+  thread_in_work_ = true;
   std::thread(&Inputter::ThreadFunction, this).detach();
+}
+
+void Inputter::StopThread()
+{
+  thread_in_work_ = false;
 }
 
 bool Inputter::CheckPressed(int virtual_key)
@@ -57,17 +68,15 @@ bool Inputter::CheckDelay(std::chrono::time_point<std::chrono::steady_clock> pre
   return false;
 }
 
-
 void Inputter::ThreadFunction()
 {
-  while(true)
+  while(thread_in_work_)
   {
-    std::lock_guard<std::mutex> locker(map_mutex_);
-    for (auto &[virtual_key, time_point] : virtual_keys_)
+    for (auto& [virtual_key, time_point] : virtual_keys_)
     {
       if (CheckDelay(time_point) && CheckPressed(virtual_key))
       {
-        signal_pointer_(virtual_key);                  // Emit signal
+        signal_pointer_(object_, virtual_key);         // Emit signal
         time_point = std::chrono::steady_clock::now(); // Reset timer
       }
     }

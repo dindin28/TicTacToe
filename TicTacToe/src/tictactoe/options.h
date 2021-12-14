@@ -13,6 +13,6 @@ constexpr std::string_view kStatisticsFile("resources/statistics.txt");
 
 // Outputter class
 constexpr std::chrono::duration<long double> kCursorBlinkingDelay
-  = std::chrono::milliseconds(500);
+  = std::chrono::milliseconds(400);
 
 #endif // header guard

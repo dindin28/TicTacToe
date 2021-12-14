@@ -13,6 +13,10 @@ public:
 
   void ShowBoard(const std::vector<std::vector<char>>& array,
                  bool turn_crosses) const;
+  void ShowStatistics();
+  void ClearScreen();
+  void ShowText(const std::string& text);
+
 
   void SetCOORD(COORD cursor_position);
 
