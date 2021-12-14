@@ -5,10 +5,14 @@
 #include <string_view>
 
 // Inputter class
-constexpr std::chrono::duration<long double> key_delay
+constexpr std::chrono::duration<long double> kKeyDelay
   = std::chrono::milliseconds(250);
 
 // Statistics class
-constexpr std::string_view statistics_file("resources/statistics.txt");
+constexpr std::string_view kStatisticsFile("resources/statistics.txt");
+
+// Outputter class
+constexpr std::chrono::duration<long double> kCursorBlinkingDelay
+  = std::chrono::milliseconds(500);
 
 #endif // header guard

@@ -12,13 +12,13 @@ class TicTacToe
 public:
   TicTacToe();
 
-  const Outputter& GetOutputter();
-  void ShowBoard(const std::vector<std::vector<char>>& array);
+  void StartGame();
 
 private:
+  bool turn_crosses_;
   std::vector<std::vector<char>> array_;
-  HANDLE handler_;
   Outputter outputter_;
+  COORD cursor_position_;
 };
 
-#endif // header guard
+#endif // Header guard

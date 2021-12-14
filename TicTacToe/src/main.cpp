@@ -4,17 +4,10 @@
 
 #include <iostream>
 
-std::vector<std::vector<char>> array =
-{
-  {'X', 'O', 'O', 'X'},
-  {'X', 'X', 'O', 'X'},
-  {'O', 'X', 'O', 'X'},
-};
-
 int main()
 {
   TicTacToe game;
-  game.ShowBoard(array);
+  game.StartGame();
 
   std::cout << "Press any key" << std::endl;
   _getch();

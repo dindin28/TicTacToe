@@ -1,18 +1,17 @@
 #include "tictactoe/tictactoe.h"
 
 TicTacToe::TicTacToe()
-{
-  SetConsoleTitle(L"TicTacToe");
-  //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_RED);
-  handler_ = GetStdHandle(STD_OUTPUT_HANDLE);
-}
+  : turn_crosses_(true),
+    array_({{' ', ' ', ' '},
+            {' ', ' ', ' '},
+            {' ', ' ', ' '},}),
+    cursor_position_(COORD{0,0}),
+    outputter_(array_)
+{}
 
-const Outputter& TicTacToe::GetOutputter()
+void TicTacToe::StartGame()
 {
-  return outputter_;
-}
-
-void TicTacToe::ShowBoard(const std::vector<std::vector<char>>& array)
-{
-  outputter_.ShowBoard(array);
+  outputter_.SetCOORD(cursor_position_);
+  outputter_.StartCursorBlinking();
+  outputter_.ShowBoard(array_, turn_crosses_);
 }

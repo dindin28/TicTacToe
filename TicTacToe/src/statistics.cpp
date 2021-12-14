@@ -15,7 +15,7 @@ bool Statisticks::ReadFile()
 {
   bool return_value = true;
 
-  std::ifstream file_handler(statistics_file.data());
+  std::ifstream file_handler(kStatisticsFile.data());
 
   if (file_handler.is_open() == false)
   {
@@ -72,7 +72,7 @@ bool Statisticks::UpdateFile()
   else
   { return_value = false; }
 
-  std::ofstream file_handler(statistics_file.data());
+  std::ofstream file_handler(kStatisticsFile.data());
 
   if (file_handler.is_open() == false)
   {

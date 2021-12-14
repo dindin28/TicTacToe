@@ -1,15 +1,38 @@
 #include "tictactoe/outputter.h"
+#include "tictactoe/options.h"
 
-#include <format>
 #include <iostream>
+#include <sstream>
+#include <thread>
 
-void Outputter::ShowBoard(const std::vector<std::vector<char>>& array_) const
+Outputter::Outputter(std::vector<std::vector<char>>& array)
+  : handler_(GetStdHandle(STD_OUTPUT_HANDLE)),
+    cursor_blinking_(false),
+    cursor_blinked_(false),
+    array_(array)
+{
+  const _CONSOLE_CURSOR_INFO* cursor_info = new _CONSOLE_CURSOR_INFO{0, 0};
+  SetConsoleCursorInfo(handler_, cursor_info);
+  SetConsoleTitle(L"TicTacToe");
+}
+
+COORD Outputter::COORDConvertor(const COORD& cursor_position) const
+{
+  COORD coord{ cursor_position };
+  coord.X = coord.X * 2 + 1;
+  coord.Y = coord.Y * 2 + 1;
+
+  return coord;
+}
+
+void Outputter::ShowBoard(const std::vector<std::vector<char>>& array,
+                          bool turn_crosses) const
 {
   // Top row
   std::cout << char(201); // top left edge
-  for (int i{}; i < array_[0].size(); ++i)
+  for (int i{}; i < array[0].size(); ++i)
   {
-    if (i != array_[0].size() - 1)
+    if (i != array[0].size() - 1)
     {
       std::cout << char(205) << char(203);
     }
@@ -21,22 +44,22 @@ void Outputter::ShowBoard(const std::vector<std::vector<char>>& array_) const
   std::cout << char(187) << std::endl; // top right edge
 
   // Cells with rows
-  for (int i{}; i < array_.size(); ++i)
+  for (int i{}; i < array.size(); ++i)
   {
     std::cout << char(186); // vertical line
-    for (int j{}; j < array_[0].size(); ++j)
+    for (int j{}; j < array[0].size(); ++j)
     {
-      std::cout << array_[i][j] << char(186);
+      std::cout << array[i][j] << char(186);
     }
     std::cout << std::endl;
-    if(i < array_.size() - 1)
+    if(i < array.size() - 1)
     {
       std::cout << char(204); // vertical line with horizontal line
-      if (i != array_.size() - 1)
+      if (i != array.size() - 1)
       {
-        for (int j{}; j < array_[0].size(); ++j)
+        for (int j{}; j < array[0].size(); ++j)
         {
-          if (j != array_[0].size() - 1)
+          if (j != array[0].size() - 1)
           {
             std::cout << char(205) << char(206);
           }
@@ -51,9 +74,9 @@ void Outputter::ShowBoard(const std::vector<std::vector<char>>& array_) const
 
   // Bottom row
   std::cout << char(200); // bottom left edge
-  for (int i{}; i < array_[0].size(); ++i)
+  for (int i{}; i < array[0].size(); ++i)
   {
-    if (i != array_[0].size() - 1)
+    if (i != array[0].size() - 1)
     {
       std::cout << char(205) << char(202);
     }
@@ -63,4 +86,69 @@ void Outputter::ShowBoard(const std::vector<std::vector<char>>& array_) const
     }
   }
   std::cout << char(188) << std::endl; // bottom right edge
+
+  std::stringstream string_stream;
+  string_stream << "Turn: ";
+  if (turn_crosses)
+  {
+    string_stream << "X\n";
+  }
+  else
+  {
+    string_stream << "O\n";
+  }
+  std::cout << string_stream.str();
+}
+
+void Outputter::SetCOORD(COORD cursor_position)
+{
+  cursor_position_ = COORDConvertor(cursor_position);
+  SetConsoleCursorPosition(handler_, cursor_position);
+}
+
+//===================
+// Cursor Blinking
+//===================
+
+void Outputter::StartCursorBlinking()
+{
+  cursor_blinking_ = true;
+  std::thread(&Outputter::BlinkingThread, this).detach();
+}
+void Outputter::StopCursorBlinking()
+{ cursor_blinking_ = false; }
+
+bool Outputter::CheckDelay(std::chrono::time_point<std::chrono::steady_clock> prev)
+{
+  if (std::chrono::steady_clock::now() - prev > kCursorBlinkingDelay)
+  {
+    return true;
+  }
+  return false;
+}
+
+void Outputter::BlinkingThread()
+{
+  auto time_point = std::chrono::steady_clock::now();
+  while (cursor_blinking_)
+  {
+    if (CheckDelay(time_point))
+    {
+      LPDWORD buff = new DWORD;
+      const WORD* background_color;
+      if (cursor_blinked_)
+      {
+        background_color = new WORD(0x0000);
+      }
+      else
+      {
+        background_color = new WORD(0x0070);
+      }
+      WriteConsoleOutputAttribute(handler_, background_color, 1, cursor_position_, buff);
+      delete background_color;
+      delete buff;
+      cursor_blinked_ = !cursor_blinked_;
+      time_point = std::chrono::steady_clock::now();
+    }
+  }
 }

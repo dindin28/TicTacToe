@@ -50,7 +50,7 @@ bool Inputter::CheckPressed(int virtual_key)
 
 bool Inputter::CheckDelay(std::chrono::time_point<std::chrono::steady_clock> prev)
 {
-  if(std::chrono::steady_clock::now() - prev > key_delay)
+  if(std::chrono::steady_clock::now() - prev > kKeyDelay)
   {
     return true;
   }
