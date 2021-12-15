@@ -148,6 +148,7 @@
     <ClCompile Include="src\tictactoe.cpp" />
     <ClCompile Include="src\inputter.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\tictactoe_algorithms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\tictactoe\inputter.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="src\tictactoe\outputter.h" />
     <ClInclude Include="src\tictactoe\statistics.h" />
     <ClInclude Include="src\tictactoe\tictactoe.h" />
+    <ClInclude Include="src\tictactoe\tictactoe_algorithms.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\resources\statistics.txt" />

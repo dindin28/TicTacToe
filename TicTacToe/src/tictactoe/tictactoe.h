@@ -3,6 +3,7 @@
 
 #include "outputter.h"
 #include "inputter.h"
+#include "tictactoe_algorithms.h"
 
 #include <windows.h>
 
@@ -15,15 +16,18 @@ public:
   ~TicTacToe();
 
   void StartGame();
+  void EndGame(char ch);
 
   void GamingHandler(int virtual_key);
   void EndingHandler(int virtual_key);
 
 private:
-  bool turn_crosses_;
+  char which_turn_;
   std::vector<std::vector<char>> array_;
   Outputter outputter_;
   Inputter inputter_;
+  TicTacToeAlgorithms tictactoe_algorithms_;
+
   COORD cursor_position_;
 
   bool end_of_game_;

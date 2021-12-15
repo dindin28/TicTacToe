@@ -17,17 +17,12 @@ Inputter::Inputter(std::function<void(TicTacToe&, int)> signal_pointer,
                    TicTacToe& object)
   : signal_pointer_(signal_pointer),
     object_(object),
-  thread_in_work_(false)
+    thread_in_work_(false)
 {}
 
 void Inputter::AddKey(int virtual_key)
 {
   virtual_keys_.insert_or_assign(virtual_key, std::chrono::steady_clock::now());
-}
-
-void Inputter::ClearKeys()
-{
-  virtual_keys_.clear();
 }
 
 void Inputter::ChangeSignal(std::function<void(TicTacToe&, int)> signal_pointer)

@@ -1,6 +1,5 @@
 #include "tictactoe/outputter.h"
 #include "tictactoe/options.h"
-#include "tictactoe/statistics.h"
 
 #include <iostream>
 #include <sstream>
@@ -28,15 +27,13 @@ COORD Outputter::COORDConvertor(const COORD& cursor_position) const
   return coord;
 }
 
-void Outputter::ShowStatistics()
+void Outputter::ShowStatistics(const Statisticks& statistick)
 {
-  Statisticks statisticks;
-  statisticks.ReadFile();
-
   std::stringstream stream;
-  stream << "O: " << statisticks.GetNoughts() << std::endl;
-  stream << "X: " << statisticks.GetCrosses() << std::endl;
-  stream << "Draws: " << statisticks.GetDraws() << std::endl;
+  stream << "Common records: " << std::endl;
+  stream << "O: " << statistick.GetNoughts() << std::endl;
+  stream << "X: " << statistick.GetCrosses() << std::endl;
+  stream << "Draws: " << statistick.GetDraws() << std::endl;
   std::cout << stream.str();
 }
 
@@ -51,7 +48,7 @@ void Outputter::ClearScreen()
 }
 
 void Outputter::ShowBoard(const std::vector<std::vector<char>>& array,
-                          bool turn_crosses) const
+                          char which_turn) const
 {
   // Top row
   std::cout << char(201); // top left edge
@@ -113,15 +110,9 @@ void Outputter::ShowBoard(const std::vector<std::vector<char>>& array,
   std::cout << char(188) << std::endl; // bottom right edge
 
   std::stringstream string_stream;
-  string_stream << "Turn: ";
-  if (turn_crosses)
-  {
-    string_stream << "X\n";
-  }
-  else
-  {
-    string_stream << "O\n";
-  }
+  string_stream << "Turn: " << which_turn << std::endl << 
+                "Press Escape to finish" << std::endl;
+
   std::cout << string_stream.str();
 }
 
@@ -132,7 +123,7 @@ void Outputter::SetCOORD(COORD cursor_position)
 
   LPDWORD buff = new DWORD;
   WORD* background_color;
-  background_color = new WORD(0x0000);
+  background_color = new WORD(0x0007);
   for (short i = 0; i < array_.size(); ++i)
   {
     for (short j = 0; j < array_[0].size(); ++j)
@@ -163,7 +154,7 @@ void Outputter::StopCursorBlinking()
   cursor_blinking_ = false;
   LPDWORD buff = new DWORD;
   WORD* background_color;
-  background_color = new WORD(0x0000);
+  background_color = new WORD(0x0007);
   for (short i = 0; i < array_.size(); ++i)
   {
     for (short j = 0; j < array_[0].size(); ++j)
@@ -195,7 +186,7 @@ void Outputter::BlinkingThread()
       const WORD* background_color;
       if (cursor_blinked_)
       {
-        background_color = new WORD(0x0000);
+        background_color = new WORD(0x0007);
       }
       else
       {

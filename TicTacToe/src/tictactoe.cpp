@@ -1,12 +1,13 @@
 #include "tictactoe/tictactoe.h"
+#include "tictactoe/statistics.h"
 
 #include <iostream> // temporary
 
 TicTacToe::TicTacToe()
-  : turn_crosses_(true),
-    array_({{' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' '},
-            {' ', ' ', ' ', ' '}}),
+  : which_turn_('O'),
+    array_({{' ', ' ', ' '},
+            {' ', ' ', ' '},
+            {' ', ' ', ' '}}),
     cursor_position_(COORD{0,0}),
     outputter_(array_),
     inputter_(&TicTacToe::GamingHandler, *this),
@@ -31,9 +32,48 @@ void TicTacToe::StartGame()
 {
   outputter_.SetCOORD(cursor_position_);
   outputter_.StartCursorBlinking();
-  outputter_.ShowBoard(array_, turn_crosses_);
+  outputter_.ShowBoard(array_, which_turn_);
 
   inputter_.StartThread();
+}
+
+void TicTacToe::EndGame(char ch)
+{
+  // Inputter
+  inputter_.StopThread();
+  inputter_.AddKey(VK_RETURN);
+  inputter_.ChangeSignal(&TicTacToe::EndingHandler);
+  inputter_.StartThread();
+
+  // Outputter
+  Statisticks statisticks;
+  statisticks.ReadFile();
+  outputter_.StopCursorBlinking();
+  outputter_.ClearScreen();
+  switch (ch)
+  {
+    case('X'):
+    {
+      outputter_.ShowText(std::string("X is winner!!!\n\n"));
+      statisticks.IncrementCrosses();
+    }
+    break;
+    case('O'):
+    {
+      outputter_.ShowText(std::string("O is winner!!!\n\n"));
+      statisticks.IncrementNoughts();
+    }
+    break;
+    case(' '):
+    {
+      outputter_.ShowText(std::string("Draw\n\n"));
+      statisticks.IncrementDraws();
+    }
+    break;
+  }
+  outputter_.ShowStatistics(statisticks);
+  statisticks.UpdateFile();
+  outputter_.ShowText(std::string("\nPress ENTER to quit\n"));
 }
 
 void TicTacToe::GamingHandler(int virtual_key)
@@ -82,20 +122,30 @@ void TicTacToe::GamingHandler(int virtual_key)
     break;
     case(VK_ESCAPE):
     {
-      outputter_.StopCursorBlinking();
-      inputter_.StopThread();
-      inputter_.ClearKeys();
-      inputter_.AddKey(VK_RETURN);
-      inputter_.ChangeSignal(&TicTacToe::EndingHandler);
-      inputter_.StartThread();
-      outputter_.ClearScreen();
-      outputter_.ShowStatistics();
-      outputter_.ShowText(std::string("Press ENTER to quit\n"));
+      EndGame('\0');
     }
     break;
-    case(VK_RETURN):
+    case(VK_SPACE):
     {
-      // On pressing enter
+      if (tictactoe_algorithms_.CheckPutToBoard(array_, cursor_position_))
+      {
+        array_[cursor_position_.Y][cursor_position_.X] = which_turn_;
+        std::pair<bool, char> pair = tictactoe_algorithms_.CheckWin(array_, cursor_position_);
+        if (pair.first)
+        {
+          EndGame(pair.second);
+          break;
+        }
+        if (tictactoe_algorithms_.CheckPutPossibility(array_) == false)
+        {
+          EndGame(' ');
+          break;
+        }
+        tictactoe_algorithms_.ExpandMatrix(array_);
+        tictactoe_algorithms_.SwitchTurn(which_turn_);
+        outputter_.ClearScreen();
+        outputter_.ShowBoard(array_, which_turn_);
+      }
     }
     break;
   }

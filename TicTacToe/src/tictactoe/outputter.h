@@ -1,6 +1,8 @@
 #ifndef TICTACTOE_SRC_OUTPUTTER_H
 #define TICTACTOE_SRC_OUTPUTTER_H
 
+#include "tictactoe/statistics.h"
+
 #include <windows.h>
 
 #include <vector>
@@ -12,8 +14,8 @@ public:
   Outputter(std::vector<std::vector<char>>& array);
 
   void ShowBoard(const std::vector<std::vector<char>>& array,
-                 bool turn_crosses) const;
-  void ShowStatistics();
+                 char which_turn) const;
+  void ShowStatistics(const Statisticks& statistick);
   void ClearScreen();
   void ShowText(const std::string& text);
 

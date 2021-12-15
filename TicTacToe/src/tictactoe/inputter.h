@@ -14,7 +14,6 @@ class Inputter
   Inputter(std::function<void(TicTacToe&, int)> signal_pointer,
            TicTacToe& object);
   void AddKey(int virtual_key);
-  void ClearKeys();
 
   void StartThread();
   void StopThread();

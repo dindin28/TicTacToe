@@ -15,4 +15,8 @@ constexpr std::string_view kStatisticsFile("resources/statistics.txt");
 constexpr std::chrono::duration<long double> kCursorBlinkingDelay
   = std::chrono::milliseconds(400);
 
+// TicTacToeAlgorithms class
+constexpr short kCountToWin = 3; // kCountToWin > 1
+constexpr short kMaxBoardWidth = 3;
+
 #endif // header guard
